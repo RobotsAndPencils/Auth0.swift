@@ -42,9 +42,6 @@ commands:
           name: Install Swiftlint
           command: brew install swiftlint
       - run:
-          name: Enable code coverage
-          command: grep -lR "shouldUseLaunchSchemeArgsEnv" *.* --null | xargs -0 sed -i '' -e 's/shouldUseLaunchSchemeArgsEnv = "YES"/shouldUseLaunchSchemeArgsEnv = "YES" codeCoverageEnabled = "YES"/g'
-      - run:
           name: Save Xcode version
           command: xcodebuild -version | tee .xcode-version
       - restore_cache:
