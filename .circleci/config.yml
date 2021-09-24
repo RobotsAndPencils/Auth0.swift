@@ -49,12 +49,12 @@ commands:
           command: xcodebuild -version | tee .xcode-version
       - restore_cache:
           keys:
-            - << parameters.scheme >>-v3-carthage-{{ checksum "Cartfile.resolved" }}-{{ checksum ".xcode-version" }}
+            - << parameters.scheme >>-v1-carthage-{{ checksum "Cartfile.resolved" }}-{{ checksum ".xcode-version" }}
       - run:
           name: Install dependencies
           command: carthage bootstrap --use-xcframeworks --no-use-binaries --cache-builds
       - save_cache:
-          key: << parameters.scheme >>-v3-carthage-{{ checksum "Cartfile.resolved" }}-{{ checksum ".xcode-version" }}
+          key: << parameters.scheme >>-v1-carthage-{{ checksum "Cartfile.resolved" }}-{{ checksum ".xcode-version" }}
           paths:
             - Carthage/Build
   test-ios:
@@ -83,7 +83,7 @@ commands:
       - run:
           name: Run macOS tests
           command: |
-            xcodebuild test -scheme << parameters.scheme >>.OSX -destination 'platform=macOS,arch=x86_64' | xcpretty
+            xcodebuild test -scheme << parameters.scheme >>.macOS -destination 'platform=macOS,arch=x86_64' | xcpretty
             swift test
   test-tvos:
     parameters:
