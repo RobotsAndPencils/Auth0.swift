@@ -259,10 +259,16 @@ class BaseWebAuth: WebAuthenticatable {
         var entries = defaults
         entries["client_id"] = self.clientId
         entries["redirect_uri"] = redirectURL.absoluteString
-        entries["scope"] = "openid"
         entries["state"] = state
         entries["response_type"] = self.responseType.map { $0.label! }.joined(separator: " ")
 
+        // Allow custom scope to be entered, such as offline_access
+        if let customScope = entries["scope"] {
+            entries["scope"] = customScope
+        } else {
+            entries["scope"] = "openid"
+        }
+        
         if let maxAge = self.maxAge {
             entries["max_age"] = String(maxAge)
         }
